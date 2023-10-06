@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MusicPlayerActivity">
+
+    <TextView
+        android:id="@+id/songTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="500dp"
+        android:text="@string/song_title"
+        android:textSize="35sp" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="530dp"
+         />
+
+    <ImageView
+        android:id="@+id/playButton"
+        app:srcCompat="@drawable/playreg"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="585dp"
+        android:layout_centerHorizontal="true"
+        app:tint="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/durationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="560dp"
+        android:text="@string/_00_00"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="600dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="33dp"
+        android:orientation="horizontal">
+
+
+
+        <ImageView
+
+            app:srcCompat="@drawable/nextreg"
+            android:id="@+id/nextSo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:tint="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentBottom="true"
+
+            />
+
+
+        <ImageView
+
+            app:srcCompat="@drawable/pausereg"
+            android:id="@+id/pauseButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:tint="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            />
+
+
+        <ImageView
+            app:srcCompat="@drawable/stopreg"
+            android:id="@+id/stopButton"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+
+            />
+
+
+
+        <ImageView
+
+            app:srcCompat="@drawable/prevreg"
+            app:tint="@color/black"
+            android:id="@+id/lastSo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
