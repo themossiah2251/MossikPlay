@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.mossikplay.databinding.FragmentSlideshowBinding;
+import com.example.mossikplay.databinding.FragmentPlaylistBinding;
 
 public class PlaylistFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+     FragmentPlaylistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         PlaylistViewModel slideshowViewModel =
                 new ViewModelProvider(this).get(PlaylistViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentPlaylistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
+        final TextView textView = binding.textPlaylist;
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

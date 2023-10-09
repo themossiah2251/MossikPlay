@@ -1,15 +1,14 @@
 package com.example.mossikplay;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(v-> {
             Log.d("LoginActivity", "Login button clicked");
-                if(!validateUserName() | !validatePassword()){
+            if(validateUserName() && validatePassword()){
 
 
                     checkUser();
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             loginPassword.setError("Password cannot be empty");
             return false;
         }else{
-            Log.d("LoginActivity", "Username is empty");
+            Log.d("LoginActivity", "Username is valid");
             loginPassword.setError(null);
             return true;
         }

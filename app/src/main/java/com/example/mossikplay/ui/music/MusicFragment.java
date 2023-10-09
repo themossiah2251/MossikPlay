@@ -1,8 +1,7 @@
 package com.example.mossikplay.ui.music;
 
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
-
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,67 +10,93 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-
-
-import com.example.mossikplay.R;
+import com.example.mossikplay.MusicplayerActivity;
 import com.example.mossikplay.databinding.FragmentMusicBinding;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MusicFragment extends Fragment {
     private OnSongSelectedListener songSelectedListener;
-    private ArrayList<String> songList;
-     FragmentMusicBinding binding;
-private MediaPlayer mediaPlayer;
+   ArrayList<String> songList;
+    FragmentMusicBinding binding;
+    MediaPlayer mediaPlayer;
+
     public interface OnSongSelectedListener {
         void onSongSelected(String songPath);
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnSongSelectedListener) {
-            songSelectedListener = (OnSongSelectedListener) context;
-        } else {
-            throw new ClassCastException("Activity must implement OnSongSelectedListener");
-        }
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         binding = FragmentMusicBinding.inflate(inflater, container, false);
-        View rootView = binding.getRoot();
-
-        ListView listView = rootView.findViewById(R.id.listView);
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Log.d("MusicFragment", "Song completed.");
+            }
+        });
         songList = getAllSongs();
+        SongsAdapter adapter = new SongsAdapter(songList);
+        RecyclerView recyclerView = binding.listView;
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        if (getContext() != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, songList);
-            listView.setAdapter(adapter);
+        return binding.getRoot();
+    }
+    class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
+        private final ArrayList<String> songs;
+
+        SongsAdapter(ArrayList<String> songs) {
+            this.songs = songs;
         }
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedSongPath = songList.get(position);
-            songSelectedListener.onSongSelected(selectedSongPath);
-            playSong(selectedSongPath);
+        @NonNull
+        @Override
+        public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+            return new SongViewHolder(itemView);
+        }
 
-        });
+        @Override
+        public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
+            String song = songs.get(position);
 
-        mediaPlayer = new MediaPlayer();
+            holder.bind(song);
+        }
 
-        return rootView;
+        @Override
+        public int getItemCount() {
+            return songs.size();
+        }
+
+        class SongViewHolder extends RecyclerView.ViewHolder {
+            TextView songName;
+
+            SongViewHolder(@NonNull View itemView) {
+                super(itemView);
+                songName = itemView.findViewById(android.R.id.text1);
+            }
+
+            void bind(final String songPath) {
+                songName.setText(songPath);
+                Log.d("MusicFragment", "Song clicked: " + songPath);
+                itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(getContext(), MusicplayerActivity.class);
+                    intent.putExtra("songPath", songPath);
+                    startActivity(intent);
+                });
+
+            }
+        }
     }
 
     @NonNull
@@ -113,17 +138,12 @@ private MediaPlayer mediaPlayer;
 
         return songList;
     }
-    public void playSong(String songPath){
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(songPath);
 
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        }catch (IOException e){
-            e.printStackTrace();
-            Toast.makeText(getContext(),"ERROR.",Toast.LENGTH_SHORT).show();
-        }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }

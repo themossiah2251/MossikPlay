@@ -2,26 +2,24 @@ package com.example.mossikplay;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.util.Log;
 import android.view.Menu;
 
-
-import com.example.mossikplay.ui.music.MusicFragment;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mossikplay.databinding.ActivityMainBinding;
+import com.example.mossikplay.ui.music.MusicFragment;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements MusicFragment.OnSongSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MusicFragment.OnS
                 R.id.nav_home, R.id.nav_music, R.id.nav_playlist)
                 .setOpenableLayout(drawer)
                 .build();
-
+        Log.d("MainActivity", "onCreate started");
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MusicFragment.OnS
     }
 
     public void onSongSelected(String songPath) {
-        Intent intent = new Intent(this, MusicplayerActivity.class);
+        Intent intent = new Intent(MainActivity.this, MusicplayerActivity.class);
         intent.putExtra("songPath", songPath);
         startActivity(intent);
     }
